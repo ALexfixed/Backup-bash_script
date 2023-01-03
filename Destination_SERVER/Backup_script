@@ -1,1 +1,27 @@
+#!/bin/bash
 
+
+#First of all I use key for connection ssh,password not security for critical data
+#Before you need setting ssh key
+
+
+
+#ip our destination server 
+DST_IPADDR=192.168.1.1 
+#user which use for loggin on server
+DST_LOGIN=root
+
+#PATH FROM
+BACKUPDIRS="/home/test1 /home/test2"
+#MAKE FOLDER FOR SAVE BACKUP  NAME+DATE 
+TMPDIR="/home/"
+timestamp=`date "+%Y_%m_%d"`
+
+
+#if error print message
+err() { echo -e "* Error: $1"; exit 1; }
+
+#copy data with archive on ssh connection 
+ssh $DST_LOGIN@$DST_IPADDR 'tar -zcvf '$TMPDIR$DST_IPADDR'_'$timestamp'.tar.gz '$BACKUPDIRS || err "Remote connection failed"
+scp $DST_LOGIN@$DST_IPADDR:${TMPDIR}${DST_IPADDR}_${timestamp}.tar.gz ./
+ssh $DST_LOGIN@$DST_IPADDR 'rm -f '$TMPDIR$DST_IPADDR'_'$timestamp'.tar.gz' || err "Remote connection failed"
