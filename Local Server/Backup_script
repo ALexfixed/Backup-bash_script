@@ -31,3 +31,14 @@ date
 
 # Long listing of files in $dest to check file sizes.
 ls -lh $dest
+
+#REMEMBER file must be made executable:
+sudo chmod u+x /home/our_script.sh
+#TRY like working our script 
+sudo ./our_script.sh
+
+#add script in crontab
+sudo crontab -e 
+
+#edit file crontab m h dom mon dow   command
+0 0 * * * bash /home/our_script.sh
