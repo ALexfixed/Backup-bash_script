@@ -1,1 +1,33 @@
+#!/bin/bash
+####################################
+#
+# Backup to NFS mount script.
+#
+####################################
 
+# PATH FROM. 
+backup_files="/home/spec/backup_source"
+
+# PATH TO
+dest="/mnt/backup_source"
+
+# Create archive filename.
+day=$(date +%A)
+hostname=$(hostname -s)
+archive_file="$hostname-$day.tgz"
+
+# Print status.
+echo "Backing up $backup_files to $dest/$archive_file"
+date
+echo
+
+#  using tar.
+tar czf $dest/$archive_file $backup_files
+
+# Print status.
+echo
+echo "Backup finished"
+date
+
+# Long listing of files in $dest to check file sizes.
+ls -lh $dest
